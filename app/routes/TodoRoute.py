@@ -34,3 +34,15 @@ async def get_todoById(id: int):
     return {
         "msg": "Todo not found"
     }
+
+@router.delete("/delete/{id}")
+async def delete_todoById(id: int):
+    for index, todo in enumerate(todos):
+        if todo["id"] == id:
+            todos.pop(index)
+            return {
+                "msg": "Todo deleted successfully"
+            }
+    return {
+        "msg": "Todo not found"
+    }
