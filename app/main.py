@@ -1,8 +1,10 @@
 
 from fastapi import FastAPI
+from app.database import Base, engine
 from app.routes.TodoRoute import router as TodoRoute
 
 app = FastAPI(title="Awais FastAPI")
+Base.metadata.create_all(bind=engine)
 app.include_router(TodoRoute)
 
 @app.get("/" , tags=["main"])

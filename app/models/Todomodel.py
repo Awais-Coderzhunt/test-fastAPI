@@ -1,7 +1,13 @@
-from pydantic import BaseModel , Field
-from typing import Union
+from sqlalchemy import Boolean, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
 
-class Todo(BaseModel):
-    title: str = Field(min_length=2, max_length=100)
-    description: str = Field(min_length=10, max_length=200)
-    isComplete: Union[bool, None] = False
+from app.database import Base
+
+
+class TodoTable(Base):
+    __tablename__ = "todos"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    title: Mapped[str] = mapped_column(String(100), nullable=False)
+    description: Mapped[str] = mapped_column(String(200), nullable=False)
+    isComplete: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
