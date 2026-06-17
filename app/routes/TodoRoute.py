@@ -48,21 +48,6 @@ async def update_todo(id: int, data: TodoCreate, db: Session = Depends(get_db)):
     return todo
 
 
-@router.patch("/update/{id}", response_model=TodoResponse)
-async def patch_todo(id: int, data: TodoUpdate, db: Session = Depends(get_db)):
-    todo = db.query(TodoTable).filter(TodoTable.id == id).first()
-    if not todo:
-        raise HTTPException(status_code=404, detail="Todo not found")
-
-    update_data = data.model_dump(exclude_unset=True)
-
-    for key, value in update_data.items():
-        setattr(todo, key, value)
-
-    db.commit()
-    db.refresh(todo)
-    return todo
-
 @router.delete("/delete/{id}")
 async def delete_todoById(id: int, db: Session = Depends(get_db)):
     todo = db.query(TodoTable).filter(TodoTable.id == id).first()
