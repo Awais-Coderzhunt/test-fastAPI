@@ -32,6 +32,21 @@ async def get_todoById(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Todo not found")
     return todo
 
+
+@router.put("/update/{id}", response_model=TodoResponse)
+async def update_todo(id: int, data: TodoCreate, db: Session = Depends(get_db)):
+    todo = db.query(TodoTable).filter(TodoTable.id == id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+    todo.title = data.title
+    todo.description = data.description
+    todo.isComplete = data.isComplete
+
+    db.commit()
+    db.refresh(todo)
+    return todo
+
 @router.delete("/delete/{id}")
 async def delete_todoById(id: int, db: Session = Depends(get_db)):
     todo = db.query(TodoTable).filter(TodoTable.id == id).first()
