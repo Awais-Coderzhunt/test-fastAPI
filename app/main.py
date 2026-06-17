@@ -1,9 +1,10 @@
 
 from fastapi import FastAPI
-from app.database import Base, engine
+from app.routes.TodoRoute import router as TodoRoute
 
-app = FastAPI()
+app = FastAPI(title="Awais FastAPI")
+app.include_router(TodoRoute)
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+@app.get("/" , tags=["main"])
+def read_root():    
+    return {"message": "Hello, World!"}
