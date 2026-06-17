@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.Todomodel import TodoTable
-from app.schemas.TodoSchema import TodoCreate, TodoResponse, TodoUpdate
+from app.schemas.TodoSchema import TodoCreate, TodoResponse  
 
 router = APIRouter(prefix="/api", tags=["todos"])
 
