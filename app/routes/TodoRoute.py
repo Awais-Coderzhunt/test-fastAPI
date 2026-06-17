@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.Todomodel import TodoTable
-from app.schemas.TodoSchema import TodoCreate, TodoResponse
+from app.schemas.TodoSchema import TodoCreate, TodoResponse, TodoUpdate
 
 router = APIRouter(prefix="/api", tags=["todos"])
 
@@ -42,6 +42,22 @@ async def update_todo(id: int, data: TodoCreate, db: Session = Depends(get_db)):
     todo.title = data.title
     todo.description = data.description
     todo.isComplete = data.isComplete
+
+    db.commit()
+    db.refresh(todo)
+    return todo
+
+
+@router.patch("/update/{id}", response_model=TodoResponse)
+async def patch_todo(id: int, data: TodoUpdate, db: Session = Depends(get_db)):
+    todo = db.query(TodoTable).filter(TodoTable.id == id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+    update_data = data.model_dump(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(todo, key, value)
 
     db.commit()
     db.refresh(todo)
