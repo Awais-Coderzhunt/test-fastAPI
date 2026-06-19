@@ -1,7 +1,8 @@
 
 from pydantic import BaseModel
+from typing import Optional
 
 class QueryParams(BaseModel):
-    name:str
-    age:int
+    name:Optional[str] = None
+    age:Optional[int] = None
 

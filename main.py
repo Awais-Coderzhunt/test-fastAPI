@@ -1,13 +1,7 @@
 
-from fastapi import FastAPI , Depends
-from typing import Annotated
-from test import QueryParams 
-app = FastAPI()
+from awais.app import app
 
-@app.get("/")
-def root(query: Annotated[QueryParams , Depends()]):
-    
-    return {
-        "message": "Awais Rasool ", "Params": query
-    }
+if __name__ =="__main__":
+    import uvicorn
 
+    uvicorn.run(app , host="localhost" , port=8000)
