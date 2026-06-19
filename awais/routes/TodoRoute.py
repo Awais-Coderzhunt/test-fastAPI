@@ -2,9 +2,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models.Todomodel import TodoTable
-from app.schemas.TodoSchema import TodoCreate, TodoResponse  
+from awais.database import get_db
+from awais.models.Todomodel import TodoTable
+from awais.schemas.TodoSchema import TodoCreate, TodoResponse  
 
 router = APIRouter(prefix="/api", tags=["todos"])
 
