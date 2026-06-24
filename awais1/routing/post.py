@@ -7,6 +7,7 @@ from ..schemas import PostCreate, PostResponse
 from ..models import Post
 from ..database import get_db
 
+from sqlalchemy import select
 
 router = APIRouter(tags=["posts"])
 templates = Jinja2Templates(directory="awais1/templates")

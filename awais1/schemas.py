@@ -29,6 +29,10 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
+class UserUpdate(UserBase):
+    userName: str | None = Field(default=None, min_length=1, max_length=100)
+    email: str | None = Field(default=None, min_length=1, max_length=255)
+    age: int | None = Field(default=None, ge=1, le=150)
 
 class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
