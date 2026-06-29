@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..database import get_db
+from ..oauth2 import get_current_user
+
 from ..models.userModels import User
 from ..schemas.userSchemas import UserCreate, UserResponse, Token
 from ..core.security import hash_password, verify_password
@@ -22,3 +24,9 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+@router.get("/me", response_model=UserResponse)
+def get_me(
+    current_user: User = Depends(get_current_user)
+):
+    return current_user
