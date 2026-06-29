@@ -27,7 +27,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    pass
+    password: str = Field(min_length=1, max_length=255)
 
 class UserUpdate(UserBase):
     userName: str | None = Field(default=None, min_length=1, max_length=100)
@@ -38,3 +38,12 @@ class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    id: int | None = None

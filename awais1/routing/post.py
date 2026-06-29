@@ -4,8 +4,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from ..schemas import PostCreate, PostResponse
-from ..models import Post
+from ..models import Post, User
 from ..database import get_db
+from ..oauth2 import get_current_user
 
 from sqlalchemy import select
 
@@ -33,7 +34,11 @@ def get_posts(db: Session = Depends(get_db)):
 
 
 @router.post("/api/posts", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
-def create_post(post: PostCreate, db: Session = Depends(get_db)):
+def create_post(
+    post: PostCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
     new_post = Post(
         author=post.author,
         title=post.title,
