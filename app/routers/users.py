@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -7,6 +7,11 @@ from ..oauth2 import get_current_user
 from ..models.userModels import User
 from ..schemas.userSchemas import UserCreate, UserResponse, Token
 from ..core.security import hash_password, verify_password
+
+from PIL import UnidentifiedImageError
+from starlette.concurrency import run_in_threadpool
+
+from image_utils import delete_profile_image, process_profile_image
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
