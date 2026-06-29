@@ -32,3 +32,4 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
+    profile_image: Mapped[str | None] = mapped_column(String(255), nullable=True)

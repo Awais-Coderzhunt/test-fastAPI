@@ -1,7 +1,9 @@
 
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
+
+from .image_utils import PROFILE_PICS_URL
 
 class PostBase(BaseModel):
     title: str = Field(min_length=1, max_length=100)
@@ -38,6 +40,14 @@ class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    profile_image: str | None = Field(default=None, exclude=True)
+
+    @computed_field
+    @property
+    def profile_image_url(self) -> str | None:
+        if not self.profile_image:
+            return None
+        return f"{PROFILE_PICS_URL}/{self.profile_image}"
 
 
 class Token(BaseModel):
